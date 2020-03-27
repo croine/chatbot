@@ -1,0 +1,11 @@
+#This is a custom !8ball game for your channel or the channel's that you peronally moderate for.
+
+on *:text:!8ball *:#(TWITCH_CHANNEL_ID_GOES HERE): {
+  if (!%flood8ball) && (!$($+(%,flood8ball.,$nick),2)) {
+    inc -z %flood8ball 40
+    inc -z %flood8ball. $+ $nick 120
+    var %m = (WRITE_SOMETHING_HERE) |(WRITE_SOMETHING_HERE)
+    if ($right($1-,1) != ?) { msg # this is not a question Pepega | return }
+    else describe # @ $+ $nick $+ , $gettok(%m,$rand(1,$numtok(%m,124)),124)
+  }
+}
