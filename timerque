@@ -1,0 +1,19 @@
+#This is a timer que anti floody code so your chatbot doesn't overflow with the current scripts that have for your chatbot. 
+#If your chatbot is slowing it is reading the memory from the bot itself hense when your chatbot may be slow responding to others.
+#This code will help the issues what I've mentioned above ^
+
+alias queue_push {
+  if (!$window(@queue)) window -h @queue
+  aline @queue $1
+}
+alias queue_pop {
+  var %tok = $line(@queue, 1)
+  if (!$line(@queue,0)) window -c @queue
+  else dline @queue 1
+  return %tok
+}
+
+  ;you can get millisecond support, here 1500 ms aka 1 second and a half
+  ;.timerqueuechecking -m 0 1500 if ($queue_pop != $!null) $!v1
+  .timerqueuechecking 0 2 if ($queue_pop != $!null) $!v1
+}
