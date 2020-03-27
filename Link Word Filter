@@ -1,4 +1,7 @@
-#This is a word link filter that I've managed to put together for people to edit themselves. It will timeout the user for (1 second) you can edit the time if you wish? If you want to edit the time you can delete the number "1" and add the number "600" if you want for a 3 minute timeout, you can look up on Twitch number timeout system. If theres a percific link they post you can insta ban the user with the ban number. Hope you understand what I mean?
+#This is a word link filter that I've managed to put together for people to edit themselves. 
+#It will timeout the user for (1 second) you can edit the time if you wish? If you want to edit the time you can delete the number "1" 
+ and add the number "600" if you want for a 3 minute timeout, you can look up on Twitch number timeout system. 
+ #If theres a percific link they post you can insta ban the user with the ban number. Hope you understand what I mean?
 
 // Link Word System 2.0 \\
 
