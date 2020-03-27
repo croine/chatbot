@@ -1,0 +1,7 @@
+#This is a hug custom game that you can type in the chat. 
+
+on *:TEXT:!hugs*:#(CHANNEL_ID_GOES_HERE): {
+  inc %hugs
+  inc $+(%,hugs,$iif($2,$2,$nick))
+  msg $chan $nick (TYPE_SOMETHING_HERE) $+ $2 $+ , $+ $nick (TYPE_SOMETHING_HERE) $+ $2 (TYPE_SOMETHING_HERE) (TYPE_SOMETHING_HERE) $ord($($+(%,hugs,$iif($2,$2,$nick)),5)) time $nick $2 has been hugged. (EMOTE_GOES_HERE)
+}
