@@ -1,0 +1,9 @@
+#This needs fixing so giving you an example on how it could work if you know a fix for this. Currently not working!
+
+on $*:text:/(^|\s)%bits\d+(\s|$)/i:#(YOUR_CHANNEL_NAME_GOES_HERE): {
+  if (($msgtags(room-id).key == (CHANNEL_PROFILE_ID_GOES_HERE)) && ($msgtags(bits).key)) {
+    var %bits $replace($msgtags(msg-param-bits).key
+    var %nick $iif($msgtags(display-name).key, $v1, $msgtags(login).key)
+    msg $1 $msgtags(display-name).key has donated $msgtags(bits).key bits (TWITCH_EMOTE_GOES_HERE)
+  }
+}
