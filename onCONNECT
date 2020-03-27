@@ -1,0 +1,5 @@
+on *:LOGON:*:{
+  raw CAP REQ :twitch.tv/membership
+  raw CAP REQ :twitch.tv/tags
+  raw CAP REQ :twitch.tv/commands
+  /debug @raw
