@@ -1,4 +1,4 @@
-#This is a custom !8ball game for your channel or the channel's that you peronally moderate for.
+# This is a custom !8ball game for your channel or the channel's that you peronally moderate for.
 
 on *:text:!8ball *:#(TWITCH_CHANNEL_ID_GOES HERE): {
   if (!%flood8ball) && (!$($+(%,flood8ball.,$nick),2)) {
