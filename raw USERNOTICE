@@ -1,0 +1,18 @@
+raw USERNOTICE:#(YOUR_TWITCH_CHANNEL_HERE):{
+  if (($msgtags(msg-id).key == sub) && ($msgtags(room-id).key == (FIND_YOUR_TWITCH_PROFILE_ID))) {
+    var %nick $iif($msgtags(display-name).key, $v1, $msgtags(login).key)
+    var %sub-plan $replace($msgtags(msg-param-sub-plan).key, 1000, $chr(36) $+ 4.99, 2000, $chr(36) $+ 9.99, 3000, $chr(36) $+ 24.99, Prime, Prime)
+    msg $1 /me (TYPE_SOMETHING_HERE) Thank you %nick for subscribing with a %sub-plan Sub! (ADD_AN_TWITCH_EMOTE_HERE)
+  }
+  if (($msgtags(msg-id).key == resub) && ($msgtags(room-id).key == (FIND_YOUR_TWITCH_PROFILE_ID))) {
+    var %nick $iif($msgtags(display-name).key, $v1, $msgtags(login).key)
+    VAR %sub-plan $replace($msgtags(msg-param-sub-plan).key, 1000, $chr(36) $+ 4.99, 2000, $chr(36) $+ 9.99, 3000, $chr(36) $+ 24.99, Prime, Prime) 
+    msg $1 /me (TYPE_SOMETHING_HERE) %nick has just resubscribed for $msgtags (msg-param-cumulative-months).key months in a row with a %sub-plan Sub! (ADD_AN_TWITCH_EMOTE_HERE) 
+  }
+  if (($msgtags(msg-id).key == subgift) && ($msgtags(room-id).key == (FIND_YOUR_TWITCH_PROFILE_ID))) {
+    var %nick_from $iif($msgtags(display-name).key, $v1, $msgtags(login).key) , %nick_to $iif($msgtags(msg-param-recipient-display-name).key, $v1, $msgtags(msg-param-recipient-user-name).key)
+    VAR %sub-plan $replace($msgtags(msg-param-sub-plan).key, 1000, $chr(36) $+ 4.99, 2000, $chr(36) $+ 9.99, 3000, $chr(36) $+ 24.99)
+    msg $1 /me (TYPE_SOMETHING_HERE) Thank you %nick_from for gifting a %sub-plan sub to %nick_to $+ ! (ADD_AN_TWITCH_EMOTE_HERE) 
+  }
+ }
+}
