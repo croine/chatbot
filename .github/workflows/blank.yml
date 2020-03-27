@@ -1,0 +1,125 @@
+# This is a onCONNECT code you want to add for your chatbot  
+
+on *:LOGON:*:{
+  raw CAP REQ :twitch.tv/membership
+  raw CAP REQ :twitch.tv/tags
+  raw CAP REQ :twitch.tv/commands
+  /debug @raw
+
+# This is a time que filter that make your script reads everything at once. 
+
+alias queue_push {
+  if (!$window(@queue)) window -h @queue
+  aline @queue $1
+}
+alias queue_pop {
+  var %tok = $line(@queue, 1)
+  if (!$line(@queue,0)) window -c @queue
+  else dline @queue 1
+  return %tok
+}
+
+  ;you can get millisecond support, here 1500 ms aka 1 second and a half
+  ;.timerqueuechecking -m 0 1500 if ($queue_pop != $!null) $!v1
+  .timerqueuechecking 0 2 if ($queue_pop != $!null) $!v1
+}
+
+# This is a subscription that detects all Twitch subscriptions from; Twitch Prime, Tier 1,2 and 3 subs & Gifted subs.
+
+raw USERNOTICE:#(YOUR_TWITCH_CHANNEL_HERE):{
+  if (($msgtags(msg-id).key == sub) && ($msgtags(room-id).key == (FIND_YOUR_TWITCH_PROFILE_ID))) {
+    var %nick $iif($msgtags(display-name).key, $v1, $msgtags(login).key)
+    var %sub-plan $replace($msgtags(msg-param-sub-plan).key, 1000, $chr(36) $+ 4.99, 2000, $chr(36) $+ 9.99, 3000, $chr(36) $+ 24.99, Prime, Prime)
+    msg $1 /me (TYPE_SOMETHING_HERE) Thank you %nick for subscribing with a %sub-plan Sub! (ADD_AN_TWITCH_EMOTE_HERE)
+  }
+  if (($msgtags(msg-id).key == resub) && ($msgtags(room-id).key == (FIND_YOUR_TWITCH_PROFILE_ID))) {
+    var %nick $iif($msgtags(display-name).key, $v1, $msgtags(login).key)
+    VAR %sub-plan $replace($msgtags(msg-param-sub-plan).key, 1000, $chr(36) $+ 4.99, 2000, $chr(36) $+ 9.99, 3000, $chr(36) $+ 24.99, Prime, Prime) 
+    msg $1 /me (TYPE_SOMETHING_HERE) %nick has just resubscribed for $msgtags (msg-param-cumulative-months).key months in a row with a %sub-plan Sub! (ADD_AN_TWITCH_EMOTE_HERE) 
+  }
+  if (($msgtags(msg-id).key == subgift) && ($msgtags(room-id).key == (FIND_YOUR_TWITCH_PROFILE_ID))) {
+    var %nick_from $iif($msgtags(display-name).key, $v1, $msgtags(login).key) , %nick_to $iif($msgtags(msg-param-recipient-display-name).key, $v1, $msgtags(msg-param-recipient-user-name).key)
+    VAR %sub-plan $replace($msgtags(msg-param-sub-plan).key, 1000, $chr(36) $+ 4.99, 2000, $chr(36) $+ 9.99, 3000, $chr(36) $+ 24.99)
+    msg $1 /me (TYPE_SOMETHING_HERE) Thank you %nick_from for gifting a %sub-plan sub to %nick_to $+ ! (ADD_AN_TWITCH_EMOTE_HERE) 
+  }
+ }
+}
+
+# This is a custom cammand system that a ato message will respond to the "!" command that has been created.
+
+on *:text:!(LINK_TAG_NAME_HERE):#(TWITCH_PROFILE_ID_HERE): {
+  if ((%floodhello) || ($($+(%,floodhello.,$nick),2))) { return }
+  msg $chan (YOUR_MESSAGE_GOES_HERE) $+
+}
+
+# This is a Twitch custom bits thank you message when someone donates with Twitch Bits! [Does not work]
+
+on $*:text:/(^|\s)%bits\d+(\s|$)/i:#(YOUR_CHANNEL_NAME_GOES_HERE): {
+  if (($msgtags(room-id).key == (CHANNEL_PROFILE_ID_GOES_HERE)) && ($msgtags(bits).key)) {
+    var %bits $replace($msgtags(msg-param-bits).key
+    var %nick $iif($msgtags(display-name).key, $v1, $msgtags(login).key)
+    msg $1 $msgtags(display-name).key has donated $msgtags(bits).key bits (TWITCH_EMOTE_GOES_HERE)
+  }
+}
+
+# This is a custom timeout detection link system
+
+// Link Word System 2.0 \\
+
+on *:text:*https*:#(TWITCH_CHANNEL_GOES_HERE):{
+  msg $chan .timeout $nick 1
+}
+on *:text:*http*:#(TWITCH_CHANNEL_GOES_HERE):{
+  msg $chan .timeout $nick 1
+}
+on *:text:*.com*:#(TWITCH_CHANNEL_GOES_HERE):{
+  msg $chan .timeout $nick 1
+}
+on *:text:*.co*:#(TWITCH_CHANNEL_GOES_HERE):{
+  msg $chan .timeout $nick 1
+}
+on *:text:*.co.uk*:#(TWITCH_CHANNEL_GOES_HERE):{
+  msg $chan .timeout $nick 1
+}
+on *:text:*clips.tv*:#(TWITCH_CHANNEL_GOES_HERE):{
+  msg $chan .timeout $nick 1
+}
+on *:text:*www.*:#(TWITCH_CHANNEL_GOES_HERE):{
+  msg $chan .timeout $nick 1
+}
+
+# Custom IRL time and date shows your system time & date. 
+
+on $*:text:/^!(date)$/iS:#(TWITCH_PROFILE_ID_GOES_HERE):{ 
+  .msg # $date(dd/mm/yyyy) - The date will display in GMT, if you want US date; $date(mm/dd/yyyy) LuvOops Anybody can use this command $1 but remember the command is setup GMT based. 
+}
+on $*:text:/^!(time)$/iS:#(TWITCH_PROFILE_ID_GOES_HERE):{ 
+  .msg # $gmt(hh:nn)
+}
+
+# This is a custom auto response system it reads the word and it will auto reply with a message.
+
+on *:TEXT:(YOUR_MESSAGE_GOES_HERE):#(YOUR_CHANNEL_GOES_HERE):{ msg $chan (YOUR_MESSAGE_GOES_HERE) $nick $+ }
+
+
+# This is a custom !hug command that counts how many time your Twitch name hugs, basically a hug counter
+
+on *:TEXT:!hugs*:#(CHANNEL_ID_GOES_HERE): {
+  inc %hugs
+  inc $+(%,hugs,$iif($2,$2,$nick))
+  msg $chan $nick (TYPE_SOMETHING_HERE) $+ $2 $+ , $+ $nick (TYPE_SOMETHING_HERE) $+ $2 (TYPE_SOMETHING_HERE) (TYPE_SOMETHING_HERE) $ord($($+(%,hugs,$iif($2,$2,$nick)),5)) time $nick $2 has been hugged. (EMOTE_GOES_HERE)
+}
+
+
+# This is a custom !8ball chat game you ask a question like so; "!ball did you know Twitch favourite colour is purple?" and it will answer the question for you. 
+# You must add response messages otherwise the script wont work
+
+on *:text:!8ball *:#(TWITCH_CHANNEL_ID_GOES HERE): {
+  if (!%flood8ball) && (!$($+(%,flood8ball.,$nick),2)) {
+    inc -z %flood8ball 40
+    inc -z %flood8ball. $+ $nick 120
+    var %m = (WRITE_SOMETHING_HERE) |(WRITE_SOMETHING_HERE)
+    if ($right($1-,1) != ?) { msg # this is not a question Pepega | return }
+    else describe # @ $+ $nick $+ , $gettok(%m,$rand(1,$numtok(%m,124)),124)
+  }
+}
