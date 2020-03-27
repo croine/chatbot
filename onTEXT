@@ -1,0 +1,4 @@
+on *:text:!(LINK_TAG_NAME_HERE):#(TWITCH_PROFILE_ID_HERE): {
+  if ((%floodhello) || ($($+(%,floodhello.,$nick),2))) { return }
+  msg $chan (YOUR_MESSAGE_GOES_HERE) $+
+}
