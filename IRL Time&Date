@@ -1,0 +1,8 @@
+#This is a real IRL time & date command system that I've messed around, I've added a GMT time and a CST time based script. 
+
+on $*:text:/^!(date)$/iS:#(TWITCH_PROFILE_ID_GOES_HERE):{ 
+  .msg # $date(dd/mm/yyyy) - The date will display in GMT, if you want US date; $date(mm/dd/yyyy) LuvOops Anybody can use this command $1 but remember the command is setup GMT based. 
+}
+on $*:text:/^!(time)$/iS:#(TWITCH_PROFILE_ID_GOES_HERE):{ 
+  .msg # $gmt(hh:nn)
+}
